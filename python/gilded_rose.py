@@ -70,6 +70,8 @@ class ItemUpdater:
         """Base class for updating items,Should be overridden."""
         raise NotImplementedError("Subclasses should implement this method")
     
+    
+    
 class NormalItem(ItemUpdater):
     def update(self,item: Item):
         item.sell_in -= 1
@@ -103,3 +105,18 @@ class ConjuredItem(ItemUpdater):
         item.sell_in -= 1
         degradation = 4 if item.sell_in < 0 else 2
         item.quality = max(0, item.quality - degradation)
+        
+
+def get_updater(item: Item) -> ItemUpdater:
+    if item.name == "Aged Brie":
+        return AgedBrie()
+    elif item.name == "Backstage passes to a TAFKAL80ETC concert":
+        return BackstagePass()
+    elif item.name == "Sulfuras, Hand of Ragnaros":
+        return Sulfuras()
+    elif "Conjured" in item.name:
+        return ConjuredItem()
+    else:
+        return NormalItem()
+        
+        
