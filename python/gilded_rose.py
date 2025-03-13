@@ -69,3 +69,37 @@ class ItemUpdater:
     def update(self,item: Item):
         """Base class for updating items,Should be overridden."""
         raise NotImplementedError("Subclasses should implement this method")
+    
+class NormalItem(ItemUpdater):
+    def update(self,item: Item):
+        item.sell_in -= 1
+        degradation = 2 if item.sell_in < 0 else 1
+        item.quality = max(0, item.quality - degradation)
+        
+class AgedBrie(ItemUpdater):
+    def update(self,item: Item):
+        item.sell_in -= 1
+        improvement = 2 if item.sell_in < 0 else 1
+        item.quality = min(50, item.quality + improvement)
+        
+class BackstagePass(ItemUpdater):
+    def update(self,item: Item):
+        item.sell_in -= 1
+        if item.sell_in < 0:
+            item.quality = 0
+        elif item.sell_in < 5:
+            item.quality = min(50, item.quality + 3)
+        elif item.sell_in < 10:
+            item.quality = min(50, item.quality + 2)
+        else:
+            item.quality = min(50, item.quality + 1)
+            
+class Sulfuras(ItemUpdater):
+    def update(self,item: Item):
+        pass
+    
+class ConjuredItem(ItemUpdater):
+    def update(self, item: Item):
+        item.sell_in -= 1
+        degradation = 4 if item.sell_in < 0 else 2
+        item.quality = max(0, item.quality - degradation)
