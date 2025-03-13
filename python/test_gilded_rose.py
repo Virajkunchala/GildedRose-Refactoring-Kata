@@ -26,6 +26,26 @@ class GildedRoseTest(unittest.TestCase):
         self.assertEqual(-1, items[0].sell_in)
         self.assertEqual(18, items[0].quality)
         
+    def test_aged_brie_increases_in_quality(self):
+        """
+        Test that Aged Brie increases in quality by 1 before the sell date.
+        """
+        items = [Item("Aged Brie", 2, 0)]
+        gilded_rose = GildedRose(items)
+        gilded_rose.update_quality()
+        self.assertEqual(1, items[0].sell_in)
+        self.assertEqual(1, items[0].quality)
+
+    def test_aged_brie_doubles_increase_after_sell_date(self):
+        """
+        Test that Aged Brie increases in quality by 2 after the sell date.
+        """
+        items = [Item("Aged Brie", 0, 0)]
+        gilded_rose = GildedRose(items)
+        gilded_rose.update_quality()
+        self.assertEqual(-1, items[0].sell_in)
+        self.assertEqual(2, items[0].quality)
+        
     def test_quality_degrades_twice_as_fast(self):
         items = [Item("Conjured Mana Cake", 3, 6)] 
         gilded_rose = GildedRose(items)
