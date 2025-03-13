@@ -46,6 +46,46 @@ class GildedRoseTest(unittest.TestCase):
         self.assertEqual(-1, items[0].sell_in)
         self.assertEqual(2, items[0].quality)
         
+    def test_backstage_passes_increase_by_1(self):
+        """
+        Test that Backstage passes increase by 1 when there are more than 10 days before the concert.
+        """
+        items = [Item("Backstage passes to a TAFKAL80ETC concert", 15, 20)]
+        gilded_rose = GildedRose(items)
+        gilded_rose.update_quality()
+        self.assertEqual(14, items[0].sell_in)
+        self.assertEqual(21, items[0].quality)
+        
+    def test_backstage_passes_increase_by_2(self):
+        """
+        Test that Backstage passes increase by 2 when there are 10 or fewer days before the concert.
+        """
+        items = [Item("Backstage passes to a TAFKAL80ETC concert", 10, 20)]
+        gilded_rose = GildedRose(items)
+        gilded_rose.update_quality()
+        self.assertEqual(9, items[0].sell_in)
+        self.assertEqual(22, items[0].quality)
+        
+    def test_backstage_passes_increase_by_3(self):
+        """
+        Test that Backstage passes increase by 3 when there are 5 or fewer days before the concert.
+        """
+        items = [Item("Backstage passes to a TAFKAL80ETC concert", 5, 20)]
+        gilded_rose = GildedRose(items)
+        gilded_rose.update_quality()
+        self.assertEqual(4, items[0].sell_in)
+        self.assertEqual(23, items[0].quality)
+        
+    def test_backstage_passes_drop_to_zero(self):
+        """
+        Test that Backstage passes drop to 0 quality after the concert.
+        """
+        items = [Item("Backstage passes to a TAFKAL80ETC concert", 0, 20)]
+        gilded_rose = GildedRose(items)
+        gilded_rose.update_quality()
+        self.assertEqual(-1, items[0].sell_in)
+        self.assertEqual(0, items[0].quality)
+        
     def test_quality_degrades_twice_as_fast(self):
         items = [Item("Conjured Mana Cake", 3, 6)] 
         gilded_rose = GildedRose(items)
