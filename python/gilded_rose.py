@@ -63,3 +63,9 @@ class Item:
 
     def __repr__(self):
         return "%s, %s, %s" % (self.name, self.sell_in, self.quality)
+    
+    
+class ItemUpdater:
+    def update(self,item: Item):
+        """Base class for updating items,Should be overridden."""
+        raise NotImplementedError("Subclasses should implement this method")
