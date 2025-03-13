@@ -97,6 +97,27 @@ class GildedRoseTest(unittest.TestCase):
         self.assertEqual(0, items[0].sell_in)
         self.assertEqual(80, items[0].quality)
         
+    def test_quality_never_negative(self):
+        """
+        Test that the quality of an item never becomes negative.
+        Even if the quality reaches 0, it should not decrease further.
+        """
+        items = [Item("Normal Item", 5, 0)]
+        gilded_rose = GildedRose(items)
+        gilded_rose.update_quality()
+        self.assertEqual(0, items[0].quality)
+        
+    def test_quality_never_exceeds_fifty(self):
+        """
+        Test that the quality of an item never exceeds 50.
+        For example, Aged Brie should never have a quality greater than 50.
+        """
+        items = [Item("Aged Brie", 5, 50)]
+        gilded_rose = GildedRose(items)
+        gilded_rose.update_quality()
+        self.assertEqual(50, items[0].quality)
+
+        
     def test_quality_degrades_twice_as_fast(self):
         items = [Item("Conjured Mana Cake", 3, 6)] 
         gilded_rose = GildedRose(items)
