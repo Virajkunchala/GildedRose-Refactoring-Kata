@@ -119,6 +119,10 @@ class GildedRoseTest(unittest.TestCase):
 
         
     def test_quality_degrades_twice_as_fast(self):
+        """
+        Test that Conjured items degrade in quality twice as fast as normal items.
+        The quality of Conjured Mana Cake should decrease by 2 per day.
+        """
         items = [Item("Conjured Mana Cake", 3, 6)] 
         gilded_rose = GildedRose(items)
         gilded_rose.update_quality()
